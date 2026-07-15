@@ -18,7 +18,7 @@ INSERT INTO `monetizacoes` (`id`, `nome_plano`, `valor`, `descricao`, `ativo`, `
 (3, 'Plano Corporativo', 399.90, 'Obras ilimitadas e múltiplos usuários gestores', 1, NOW(), NOW());
 
 
--- 2. POPULANDO A TABELA DE USERS (Associando a coluna planoId)
+-- 2. POPULANDO A TABELA DE USERS 
 -- Distribuímos os planos para criar variação financeira nas nossas análises de faturamento
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `cpf`, `phone`, `edcadastrado`, `planoId`, `createdAt`, `updatedAt`) VALUES
 (1, 'Mateus Dantas', 'mateusd@gmail.com', '$2b$10$AwR36...', '16104405917', '61982522195', 'Itapoã', 1, '2025-11-04 22:09:20', NOW()),
