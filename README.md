@@ -1,30 +1,68 @@
-# 🏗️ Construtec Analytics — Inteligência de Dados para Gestão de Obras
+# 🏗️ Gestão de Obras - Pipeline de Dados & Performance
 
-Este projeto é o "coração de dados" de um sistema de gestão de obras (modelo SaaS), onde construtoras e engenheiros gerenciam seus canteiros de obras e escolhem planos de assinatura. 
-
-Desenvolvi esse repositório para aplicar na prática tudo o que aprendi sobre **Banco de Dados (MySQL)** e **Análise de Dados**, focando em organizar tabelas de forma inteligente e criar relatórios que resolvem problemas reais de um negócio.
+Este projeto simula uma infraestrutura moderna de Engenharia de Dados para um ecossistema de gestão de obras civis. Ele integra a modelagem relacional de usuários, construções e monetização de planos com algoritmos de alta performance, validação de integridade e testes de qualidade de dados de ponta a ponta.
 
 ---
 
-## 📁 O que tem na pasta?
+## ⚡ Como rodar a aplicação localmente?
 
-* **`codigo/`**: A pasta com o código da aplicação rodando localmente.
-* **`diagrama.png`**: O desenho visual (DER) mostrando como as tabelas se conectam.
-* **`schema.sql`**: O script que cria o banco e as tabelas com os tipos de dados certinhos.
-* **`seeds.sql`**: Dados fictícios de teste que criei para o banco não ficar vazio.
-* **`queries_analiticas.sql`**: O arquivo principal com as análises que criei.
+> 🚀 **Importante:** Para visualizar e rodar a aplicação rodando localmente em sua máquina, entre no diretório **APP_JDM_BD** e siga as instruções rápidas contidas nele.
 
 ---
 
-## 🛠️ O que eu fiz de melhoria no Banco de Dados?
+## 📁 Estrutura do Projeto
 
-* **Limpeza Geral:** Joguei fora mais de 20 índices duplicados que o sistema criou sozinho (uma "sujeira" comum de desenvolvimento), deixando a estrutura 100% limpa.
-* **Economia de Espaço:** Ajustei colunas como CPF e Telefone. Elas usavam um tamanho gigante sem necessidade, e agora estão otimizadas para ocupar menos memória no servidor.
-* **Lógica de Cobrança:** Conectei os usuários diretamente aos planos de monetização através de chaves estrangeiras (`FOREIGN KEY`), o que permitiu fazer as análises financeiras abaixo.
+* **`consultas em SQL/`**: Modelagem do banco de dados relacional.
+    * `schema.sql`: Definição de tabelas, chaves primárias, chaves estrangeiras e relacionamentos de acordo com as regras de negócio.
+    * `seeds.sql`: Dados simulados e realistas para popular o banco de dados.
+    * `queries_analiticas.sql`: Consultas cotidianas focadas em tomadas de decisão rápidas (filtros, paginação, agrupamentos e JOINS).
+* **`testes_performance_e_qualidade/`**: Algoritmos otimizados e automação de testes de confiabilidade.
+    * `implementacaoradix.py`: Algoritmo matemático de ordenação ultra-rápida ($O(N)$) adaptado para IDs de materiais de construção.
+    * `pipeline_performance.py`: Pipeline que simula a ordenação de grandes volumes de insumos e mede o tempo de execução.
+    * `teste_data_quality.py`: Validação de entradas do usuário usando **Pydantic** para impedir valores negativos ou anomalias de dados.
+    * `test_schema.py`: Garante que se o formato das tabelas ou arquivos mudar, o processo trave antes de gerar lixo.
+    * `test_database_integration.py`: Teste que simula a inserção de relatórios em um banco **SQLite** em memória, provando a integração com bancos relacionais.
+* **`diagrama.png`**: Modelo visual Entidade-Relacionamento do nosso banco.
+* **`resultado_grafico_radixshort.png`**: Gráfico gerado pelo script demonstrando a excelente eficiência linear do algoritmo de ordenação.
 
+---
 
-## 🚀 Como testar no seu computador
+## 📐 Arquitetura do Banco de Dados
 
-1. Crie o banco e as tabelas rodando o arquivo `schema.sql`.
-2. Adicione os dados de teste rodando o arquivo `seeds.sql`.
-3. Execute o arquivo `queries_analiticas.sql` para ver os relatórios e resultados aparecerem na tela!
+Baseado no modelo do arquivo `diagrama.png`, estruturamos um banco de dados relacional que suporta:
+1.  **Usuários (`users`)**: Engenheiros ou gestores cadastrados.
+2.  **Construções (`constructions`)**: As obras vinculadas a cada usuário ($1:N$).
+3.  **Monetizações (`monetizacoes`)**: Controle de planos de assinatura e planos de pagamento da plataforma.
+
+<div align="center">
+  <img src="diagrama.png" alt="Diagrama de Relacionamento de Dados" width="400"/>
+</div>
+
+---
+
+## 📊 Performance de Ordenação (Radix Sort)
+
+Para otimizar o processamento em lote de materiais de construção (por exemplo, organizar cronologicamente ou por lotes de IDs de materiais da tabela SINAPI), implementamos uma variação matemática pura do **Radix Sort**. 
+
+Abaixo está o gráfico gerado pelo nosso pipeline rodando o script `pipeline_performance.py`, que comprova o comportamento de escala linear ($O(N)$) do processamento, independentemente de estarmos ordenando de forma crescente ou decrescente:
+
+<div align="center">
+  <img src="resultado_grafico_radixshort.png" alt="Gráfico de Desempenho do Radix Sort" width="600"/>
+</div>
+
+---
+
+## 🛡️ Qualidade de Dados & Testes Automatizados
+
+Não deixamos dados ruins irem para o banco. O projeto conta com testes unitários que garantem a segurança do negócio em três frentes:
+
+1.  **Regra de Negócio (Data Quality):** Valores negativos para insumos de obras são rejeitados de imediato utilizando validações com `Pydantic`.
+2.  **Segurança Estrutural (Schema):** Valida se o formato do dataset de entrada mantém colunas obrigatórias corretas.
+3.  **Simulação de Integração (Mock DB):** Usamos o banco de dados SQLite em memória (`:memory:`) para garantir que os dados das obras persistam corretamente de forma rápida e limpa em ambientes de testes.
+
+### Como rodar os testes localmente?
+Basta ter o `pytest` instalado e executar o comando no terminal:
+```bash
+pytest testes_performance_e_qualidade/
+
+Feito com 🛠️ por Mateus
