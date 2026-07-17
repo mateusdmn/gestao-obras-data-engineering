@@ -52,6 +52,32 @@ Abaixo está o gráfico gerado pelo nosso pipeline rodando o script `pipeline_pe
 
 ---
 
+## 📊 Business Intelligence: O Dashboard de Gestão
+
+Não adianta ter uma arquitetura de dados robusta se o tomador de decisão não conseguir ler os resultados. Esta camada do projeto transforma os dados brutos de insumos e usuários em decisões estratégicas para construtoras e incorporadoras.
+
+O painel foi desenhado seguindo as melhores práticas de **UI/UX e Scannability**, utilizando uma paleta corporativa sóbria baseada em Tons de Grafite e Ouro (estilo incorporadora de alto padrão).
+
+### 🖥️ Visualização do Painel
+
+<div align="center">
+  <img src="grafico_obras_BI" alt="Gráfico de Desempenho POWER BI" width="600"/>
+</div>
+
+### ⚙️ Engenharia e Arquitetura por Trás dos Gráficos
+Para que esse visual funcionasse de forma fluida, a modelagem foi estruturada para suportar relações complexas entre tabelas dimensão e fato:
+
+* **Modelo Relacional Integrado:** Conexão entre tabelas de Usuários, Projetos e Insumos através de um relacionamento cruzado com filtros bidirecionais.
+* **Efeito Cascata:** O filtro de **Região/Estado (Dropdown)** recalcula instantaneamente todo o ecossistema do painel em tempo real através da cadeia: `Estado` ➔ `Obras Ativas` ➔ `Custos e Insumos`.
+* **Otimização de Visuais:** Gráficos limpos de barras horizontais focados em Pareto (maiores gastos por Fornecedor, Etapa e Material), eliminando ruídos visuais e categorias zeradas.
+
+### 🧮 Métricas Inteligentes (Fórmulas DAX)
+Os indicadores (KPIs) de topo foram construídos sob medida usando linguagem DAX para garantir performance no carregamento:
+
+* **Compras Realizadas:** Filtra e soma o fluxo de caixa efetivamente pago.
+* **Previsão de Compras:** Antecipa os custos planejados e futuras saídas de caixa.
+* **Inteligência de Status:** Segmentação precisa entre o que está Pago, A Pagar e Atrasado.
+
 ## 🛡️ Qualidade de Dados & Testes Automatizados
 
 Não deixamos dados ruins irem para o banco. O projeto conta com testes unitários que garantem a segurança do negócio em três frentes:
