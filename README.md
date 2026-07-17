@@ -61,7 +61,7 @@ O painel foi desenhado seguindo as melhores práticas de **UI/UX e Scannability*
 ### 🖥️ Visualização do Painel
 
 <div align="center">
-  <img src="grafico_obras_BI" alt="Gráfico de Desempenho POWER BI" width="600"/>
+  <img src="grafico_obras_BI.png" alt="Gráfico de Desempenho POWER BI" width="600"/>
 </div>
 
 ### ⚙️ Engenharia e Arquitetura por Trás dos Gráficos
